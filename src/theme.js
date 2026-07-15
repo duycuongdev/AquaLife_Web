@@ -123,6 +123,22 @@ const theme = extendTheme({
           borderRadius: 6
         }
       }
+    },
+
+    // ToggleButton: style nhất quán cho toggle buttons
+    MuiToggleButton: {
+      styleOverrides: {
+        root: {
+          textTransform: 'none',
+          fontWeight: 500,
+          color: '#555',
+          fontSize: '0.9rem',
+          '&.Mui-selected': {
+            color: '#0b8798', // Màu primary khi tab được chọn
+            fontWeight: 600
+          }
+        }
+      }
     }
   }
 })

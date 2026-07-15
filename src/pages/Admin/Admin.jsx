@@ -40,15 +40,39 @@ export default function Admin() {
     }
   }, [location.pathname])
 
+  const tabStyles = {
+    justifyContent: 'flex-start',
+    alignItems: 'center',
+    fontSize: 16,
+    textTransform: 'none',
+    minHeight: 56,
+    px: 3,
+    color: '#555',
+    '&.Mui-selected': {
+      color: '#0b8798',
+      background: '#d8ebeb',
+      fontWeight: 'bold'
+    }
+  }
+
   return (
     <Box sx={{ display: 'flex', minHeight: '100vh' }}>
-      <AppBar position="fixed" sx={{ zIndex: 1300, background: 'linear-gradient(180deg, #dbe8e8, #ffffff)' }}>
+      <AppBar
+        position="fixed"
+        elevation={0}
+        sx={{
+          borderBottom: '1px solid rgba(0,0,0,0.06)',
+          background: 'linear-gradient(180deg, #dbe8e8, #ffffff)',
+          zIndex: 1300,       // z-index cao để hiển thị trên tất cả content
+          backdropFilter: 'blur(8px)' // Hiệu ứng mờ phía sau khi cuộn qua content
+        }}>
         <Toolbar>
           <Box component="img" src={logo} alt="AquaLife Logo" sx={{ width: 44, height: 44 }} />
-          <Typography sx={{ fontWeight: 700, color: '#0b8798', ml: 1 }}>AquaLife</Typography>
+          <Typography sx={{ fontWeight: 700, color: '#0b8798', fontSize: '1.1rem' }}>AquaLife</Typography>
           <Box sx={{ flex: 1 }} />
           <Button
             startIcon={<img src={checkout} alt="Checkout" style={{ width: 24, height: 24 }} />}
+            sx={{ color: '#0b8798', textTransform: 'none', fontWeight: 'bold' }}
             onClick={() => {
               try {
                 localStorage.removeItem('auth_token')
@@ -71,7 +95,9 @@ export default function Admin() {
             background: '#ffffff',
             position: 'sticky',
             top: 64,
-            height: 'calc(100vh - 64px)'
+            height: 'calc(100vh - 64px)',
+            display: 'flex',
+            flexDirection: 'column'
           }}
         >
           <Tabs
@@ -90,16 +116,33 @@ export default function Admin() {
               }
             }}
             aria-label="Admin sections"
-            sx={{ pt: 3 }}
+            sx={{
+              pt: 2,
+              '& .MuiTabs-indicator': {
+                right: 0,
+                left: 'auto',
+                width: 4,
+                backgroundColor: '#0b8798',
+              }
+            }}
           >
-            <Tab icon={<DashboardIcon />} iconPosition="start" label="Tổng quan" sx={{ alignItems: 'center', fontSize: 16 }} />
-            <Tab icon={<InventoryIcon />} iconPosition="start" label="Sản phẩm" sx={{ alignItems: 'center', fontSize: 16 }} />
-            <Tab icon={<ReceiptLongIcon />} iconPosition="start" label="Đơn hàng" sx={{ alignItems: 'center', fontSize: 16 }} />
-            <Tab icon={<PersonIcon />} iconPosition="start" label="Khách hàng" sx={{ alignItems: 'center', fontSize: 16 }} />
+            <Tab icon={<DashboardIcon />} iconPosition="start" label="Tổng quan" sx={tabStyles} />
+            <Tab icon={<InventoryIcon />} iconPosition="start" label="Sản phẩm" sx={tabStyles} />
+            <Tab icon={<ReceiptLongIcon />} iconPosition="start" label="Đơn hàng" sx={tabStyles} />
+            <Tab icon={<PersonIcon />} iconPosition="start" label="Khách hàng" sx={tabStyles} />
           </Tabs>
+
+          <Box sx={{ flexGrow: 1 }} />
+          <Box sx={{ p: 2, m: 2, background: '#d8ebeb', borderRadius: 2, display: 'flex', alignItems: 'center', gap: 1 }}>
+            <Box component="img" src={logo} alt="AquaLife Logo" sx={{ width: 54, height: 54 }} />
+            <Box sx={{ display: 'flex', flexDirection: 'column' }}>
+              <Typography sx={{ fontWeight: 'bold', color: '#0b8798', fontSize: 13 }}>AquaLife Admin</Typography>
+              <Typography sx={{ fontSize: 12, color: '#555' }}>Hệ thống quản lý</Typography>
+            </Box>
+          </Box>
         </Box>
 
-        <Box component="main" sx={{ flex: 1, p: 3, background: 'linear-gradient(180deg, #f7fbfb, #ffffff)' }}>
+        <Box component="main" sx={{ flex: 1, p: 4, background: '#f5f7f9' }}>
           {section === 'dashboard' && (
             <Box>
               <Dashboard />
