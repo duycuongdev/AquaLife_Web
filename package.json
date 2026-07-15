@@ -22,6 +22,7 @@
     "@emotion/styled": "^11.11.0",
     "@mui/icons-material": "^5.17.1",
     "@mui/material": "^5.13.0",
+    "@react-oauth/google": "^0.13.5",
     "axios": "^1.13.2",
     "cross-env": "^7.0.3",
     "react": "^18.2.0",

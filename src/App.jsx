@@ -15,6 +15,8 @@ import GlobalStyles from '@mui/material/GlobalStyles'
 
 // Auth Context: cung cấp auth state cho toàn app
 import { AuthProvider } from '~/contexts/AuthContext'
+import { GoogleOAuthProvider } from '@react-oauth/google'
+import { GOOGLE_CLIENT_ID } from '~/utils/constants'
 
 // Layout và Guard components
 import Layout from '~/components/Layout/Layout'
@@ -46,9 +48,10 @@ import NotFound from '~/pages/NotFound/NotFound'
 
 export default function App() {
   return (
-    <BrowserRouter>
-      {/* AuthProvider: bọc toàn app để useAuth() hoạt động ở mọi component */}
-      <AuthProvider>
+    <GoogleOAuthProvider clientId={GOOGLE_CLIENT_ID}>
+      <BrowserRouter>
+        {/* AuthProvider: bọc toàn app để useAuth() hoạt động ở mọi component */}
+        <AuthProvider>
         {/* GlobalStyles: reset CSS cơ bản áp dụng cho tất cả elements */}
         <GlobalStyles
           styles={{
@@ -166,5 +169,6 @@ export default function App() {
         </Routes>
       </AuthProvider>
     </BrowserRouter>
+  </GoogleOAuthProvider>
   )
 }

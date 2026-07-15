@@ -59,6 +59,12 @@ export const registerAPI = async (data) => {
   return response.data
 }
 
+// API Gửi mã OTP xác thực email
+export const sendOtpAPI = async (email) => {
+  const response = await client.post('/v1/auth/send-otp', { email })
+  return response.data
+}
+
 export const loginAPI = async (data) => {
   const response = await client.post('/v1/auth/login', data)
   return response.data
@@ -81,6 +87,12 @@ export const updateCustomerAPI = async (id, data) => {
 
 export const getCustomersAPI = async () => {
   const response = await client.get('/v1/users')
+  return response.data
+}
+
+// API đăng nhập bằng Google
+export const googleLoginAPI = async (idToken) => {
+  const response = await client.post('/v1/auth/google-login', { idToken })
   return response.data
 }
 
