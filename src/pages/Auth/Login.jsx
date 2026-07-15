@@ -2,11 +2,12 @@ import { useState } from 'react'
 import { useNavigate, useLocation, Link as RouterLink } from 'react-router-dom'
 import { Box, Button, Card, CardContent, TextField, Typography, InputAdornment, IconButton, Link } from '@mui/material'
 import { Visibility, VisibilityOff } from '@mui/icons-material'
-import { loginAPI } from '~/apis/index'
+import { loginAPI, googleLoginAPI } from '~/apis/index'
 import { getUserFromToken } from '~/utils/auth'
 import { validateLogin } from '~/utils/validattion'
 import { useAuth } from '~/contexts/AuthContext'
 import { toast } from 'react-toastify'
+import { GoogleLogin } from '@react-oauth/google'
 
 // Cấu hình styling
 const INPUT_STYLE = {
@@ -83,6 +84,32 @@ export default function Login() {
     } catch (err) {
       const backendMsg = err.response?.data?.message_vi || err.response?.data?.message
       setErrorMsg(backendMsg || 'Đăng nhập thất bại. Vui lòng thử lại.')
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  const handleGoogleSuccess = async (credentialResponse) => {
+    try {
+      setLoading(true)
+      const res = await googleLoginAPI(credentialResponse.credential)
+      
+      const user = res?.customer || {}
+      if (res?.accessToken) {
+        login(res.accessToken, user)
+      }
+
+      const tokenPayload = getUserFromToken()
+      const roleFromToken = tokenPayload?.role
+      const effectiveRole = roleFromToken || user.role
+
+      const origin = location.state?.from?.pathname || (effectiveRole !== ROLE_CUSTOMER ? '/admin' : '/')
+      
+      toast.success('Đăng nhập Google thành công!')
+      navigate(origin, { replace: true })
+    } catch (err) {
+      const backendMsg = err.response?.data?.message_vi || err.response?.data?.message
+      setErrorMsg(backendMsg || 'Đăng nhập Google thất bại.')
     } finally {
       setLoading(false)
     }
@@ -168,6 +195,16 @@ export default function Login() {
             >
               {loading ? 'Đang đăng nhập...' : 'Đăng nhập'}
             </Button>
+
+            <Box sx={{ mt: 3, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+              <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
+                HOẶC TIẾP TỤC VỚI
+              </Typography>
+              <GoogleLogin
+                onSuccess={handleGoogleSuccess}
+                onError={() => setErrorMsg('Lỗi khi kết nối với Google.')}
+              />
+            </Box>
           </form>
 
           <Box sx={{ textAlign: 'center', mt: 3 }}>

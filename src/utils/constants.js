@@ -19,3 +19,5 @@ export const LOGIN_FIELD = {
   email: '',
   password: ''
 }
+
+export const GOOGLE_CLIENT_ID = import.meta.env.VITE_GOOGLE_CLIENT_ID || 'your_google_client_id_here'
