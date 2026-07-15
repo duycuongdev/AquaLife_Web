@@ -1,8 +1,6 @@
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { Box, Avatar, Button, Typography, TextField } from '@mui/material'
-import Header from '~/components/Header/Header'
-import Footer from '~/components/Footer/Footer'
 import { getUserFromToken } from '~/utils/auth'
 import { getCustomerAPI, updateCustomerAPI } from '~/apis/index'
 
@@ -121,7 +119,6 @@ export default function Profile() {
 
   return (
     <Box sx={{ background: 'linear-gradient(180deg, #f7fbfb, #ffffff)' }}>
-      <Header />
       <Box sx={{ maxWidth: 980, mx: 'auto', p: 3, pt: 6, mb: 20 }}>
         <Typography variant="h5" sx={{ fontWeight: 700, textAlign: 'center', mb: 10, mt: 3 }}>Hồ sơ của tôi</Typography>
 
@@ -151,7 +148,6 @@ export default function Profile() {
           </Box>
         </Box>
       </Box>
-      <Footer />
     </Box>
   )
 }

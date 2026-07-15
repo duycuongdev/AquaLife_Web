@@ -5,8 +5,6 @@ import { ArrowDropUp, ArrowDropDown } from '@mui/icons-material'
 import { getProductsAPI, getCategoriesAPI } from '~/apis/index'
 import { addToCart } from '~/utils/cart'
 import { Link as RouterLink } from 'react-router-dom'
-import Header from '~/components/Header/Header'
-import Footer from '~/components/Footer/Footer'
 import { toast } from 'react-toastify'
 
 /**
@@ -94,8 +92,6 @@ export default function Shop() {
   // === RENDER GIAO DIỆN ===
   return (
     <Box sx={{ background: 'linear-gradient(180deg, #f7fbfb, #ffffff)' }}>
-      <Header />
-
       <Box sx={{ maxWidth: 1100, mx: 'auto', p: 3, mt: 5 }}>
         {/* === BỘ LỌC VÀ TÌM KIẾM === */}
         <Box className="shop-filters" display="flex" gap={2} alignItems="center" mb={10}>
@@ -278,7 +274,6 @@ export default function Shop() {
         />
       </Stack>
 
-      <Footer />
     </Box>
   )
 }

@@ -1,7 +1,5 @@
 import { useEffect, useState } from 'react'
 import { Box, Button, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Typography, Dialog, DialogTitle, DialogContent, DialogActions, TextField, Rating, CircularProgress } from '@mui/material'
-import Header from '~/components/Header/Header'
-import Footer from '~/components/Footer/Footer'
 // styles migrated from CustomerOrders.css into MUI `sx` props
 import { createReviewAPI, getCustomerOrdersAPI, getOrderDetailsAPI, getProductAPI, getReviewsAPI } from '~/apis/index'
 import { useNavigate } from 'react-router-dom'
@@ -151,7 +149,6 @@ export default function Orders() {
         <Box>Loading...</Box>
       ) : (
         <Box sx={{ background: 'linear-gradient(180deg, #f7fbfb, #ffffff)' }}>
-          <Header />
           <Box sx={{ maxWidth: 1100, mx: 'auto', p: 3, mb: 12 }}>
             <Typography variant="h5" sx={{ fontWeight: 700, mt: 10, mb: 10, textAlign: 'center' }}>Đơn hàng của tôi</Typography>
             <Box sx={{ background: '#fff', borderRadius: 2, p: '18px', boxShadow: '0 4px 14px rgba(0,0,0,0.04)', marginBottom: '100px' }}>
@@ -194,7 +191,6 @@ export default function Orders() {
               )}
             </Box>
           </Box>
-          <Footer />
         </Box>
       )}
       <Dialog open={reviewOpen} onClose={closeReviewDialog} maxWidth="sm" fullWidth>

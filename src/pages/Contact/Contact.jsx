@@ -1,7 +1,5 @@
 import { useState } from 'react'
 import { Box, Typography, Grid, TextField, Button, Card, CardContent } from '@mui/material'
-import Header from '~/components/Header/Header'
-import Footer from '~/components/Footer/Footer'
 import { toast } from 'react-toastify'
 
 export default function Contact() {
@@ -34,8 +32,6 @@ export default function Contact() {
 
   return (
     <Box>
-      <Header />
-
       {/* Phần tiêu đề trang liên hệ */}
       <Box sx={{ background: 'linear-gradient(180deg,#f7fbfb,#ffffff)', py: { xs: 5, md: 7 }, textAlign: 'center' }}>
         <Typography variant="h5" sx={{ fontWeight: 700, textAlign: 'center', width: '100%', mb: 3, mt: 3 }}>Liên hệ</Typography>
@@ -79,7 +75,6 @@ export default function Contact() {
 
       </Box>
 
-      <Footer />
     </Box>
   )
 }

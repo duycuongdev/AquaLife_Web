@@ -1,13 +1,48 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="vi">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="./logo.png" />
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="/logo.png" />
+
+    <!-- Responsive meta tag: đảm bảo hiển thị đúng trên mobile -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>AquaLife</title>
+
+    <!-- SEO Meta Tags -->
+    <title>AquaLife - Cửa Hàng Cá Cảnh & Phụ Kiện Bể Cá</title>
+    <meta name="description" content="AquaLife - Cửa hàng cá cảnh, tép cảnh, phụ kiện bể cá chất lượng cao. Miễn phí vận chuyển đơn từ 500k. Chuyên gia hỗ trợ 24/7." />
+    <meta name="keywords" content="cá cảnh, tép cảnh, bể cá, phụ kiện bể cá, đèn bể cá, lọc bể cá, AquaLife" />
+    <meta name="author" content="AquaLife Shop" />
+
+    <!-- Open Graph / Facebook Meta (hiển thị đẹp khi share lên mạng xã hội) -->
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="AquaLife - Cửa Hàng Cá Cảnh" />
+    <meta property="og:description" content="Chạm vào từng khoảnh khắc sống động với bể cá của bạn" />
+    <meta property="og:image" content="/logo.png" />
+
+    <!-- Google Fonts: Inter (font hiện đại, dễ đọc, phổ biến trong web app) -->
+    <!-- preconnect: kết nối trước đến Google Fonts server để tăng tốc load -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <!-- Load các font-weight cần dùng: 300 (light), 400 (regular), 500 (medium), 600, 700 (bold) -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- Smooth scrolling toàn app -->
+    <style>
+      html {
+        scroll-behavior: smooth;
+      }
+    </style>
   </head>
   <body>
+    <!-- Root element: React sẽ mount app vào đây -->
     <div id="root"></div>
+
+    <!-- Entry point của React app -->
     <script type="module" src="/src/main.jsx"></script>
   </body>
 </html>

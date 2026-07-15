@@ -18,8 +18,6 @@ import {
   FormControlLabel,
   FormControl
 } from '@mui/material'
-import Header from '~/components/Header/Header'
-import Footer from '~/components/Footer/Footer'
 import { getCart, saveCart, clearCart, updateQty, removeFromCart } from '~/utils/cart'
 import {
   createOrderAPI,
@@ -313,7 +311,6 @@ export default function Checkout() {
 
   return (
     <Box sx={{ background: 'linear-gradient(180deg, #f7fbfb, #ffffff)', minHeight: '100vh' }}>
-      <Header />
       <Box sx={{ maxWidth: 1200, mx: 'auto', p: 3 }}>
         <Typography variant="h5" sx={{ mb: 10, mt: 10, textAlign: 'center', fontWeight: 700 }}>
           Thanh toán
@@ -530,7 +527,6 @@ export default function Checkout() {
         )}
       </Box>
 
-      <Footer />
     </Box>
   )
 }

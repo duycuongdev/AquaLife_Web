@@ -3,8 +3,6 @@ import { useParams, Link as RouterLink } from 'react-router-dom'
 import { Box, Grid, Button, Typography, TextField, IconButton, Card, CardContent, Rating } from '@mui/material'
 import { getProductAPI, getProductsAPI, getReviewsAPI } from '~/apis/index'
 import { addToCart } from '~/utils/cart'
-import Header from '~/components/Header/Header'
-import Footer from '~/components/Footer/Footer'
 import AddIcon from '@mui/icons-material/Add'
 import RemoveIcon from '@mui/icons-material/Remove'
 import { toast } from 'react-toastify'
@@ -116,19 +114,16 @@ export default function ProductDetail() {
   if (!product) {
     return (
       <Box>
-        <Header />
         {/* Hiển thị khi sản phẩm chưa được tải hoặc không tồn tại */}
         <Box sx={{ maxWidth: 1100, mx: 'auto', p: 3 }}>
           <Typography>Đang tải sản phẩm hoặc sản phẩm không tồn tại.</Typography>
         </Box>
-        <Footer />
       </Box>
     )
   }
 
   return (
     <Box>
-      <Header />
       <Box sx={{ maxWidth: 1100, mx: 'auto', p: 3, mt: 10, mb: 10 }}>
         <Grid container spacing={4}>
           {/* Khu vực hình ảnh sản phẩm */}
@@ -286,7 +281,6 @@ export default function ProductDetail() {
         </Box>
       )}
 
-      <Footer />
     </Box>
   )
 }

@@ -1,7 +1,5 @@
 import { useEffect, useState } from 'react'
 import { Box, Typography, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper } from '@mui/material'
-import Header from '~/components/Header/Header'
-import Footer from '~/components/Footer/Footer'
 // Các API để lấy dữ liệu đơn hàng, chi tiết đơn hàng, và sản phẩm
 import { getOrderAPI, getOrderDetailsAPI, getProductAPI } from '~/apis/index'
 import { useParams } from 'react-router-dom'
@@ -73,7 +71,6 @@ export default function OrderDetail() {
 
   return (
     <Box>
-      <Header />
       <Box sx={{ maxWidth: 1000, margin: '0 auto', p: 3 }}>
         <Typography variant="h5" sx={{ fontWeight: 700, mb: 10, mt: 10, textAlign: 'center' }}>Chi tiết đơn hàng</Typography>
 
@@ -153,7 +150,6 @@ export default function OrderDetail() {
           )}
         </Box>
       </Box>
-      <Footer />
     </Box>
   )
 }

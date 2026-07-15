@@ -1,7 +1,10 @@
 import axios from 'axios'
 import { API_ROOT } from '~/utils/constants'
 
-const client = axios.create({ baseURL: API_ROOT })
+const client = axios.create({ 
+  baseURL: API_ROOT,
+  withCredentials: true // Tự động đính kèm HTTP-Only Cookie vào mọi request
+})
 
 // Gắn token từ localStorage cho các request cần xác thực
 client.interceptors.request.use((config) => {
@@ -9,12 +12,48 @@ client.interceptors.request.use((config) => {
     const token = localStorage.getItem('auth_token')
     if (token) config.headers.Authorization = `Bearer ${token}`
   } catch (err) {
-    // Bỏ qua lỗi localStorage (ví dụ môi trường test)
+    // Bỏ qua lỗi localStorage
   }
   return config
 })
 
-// Người dùng
+// Bắt lỗi 401 để tự động gọi Refresh Token
+client.interceptors.response.use(
+  (response) => response,
+  async (error) => {
+    const originalRequest = error.config
+
+    // Nếu lỗi là 401 và request chưa được thử lại lần nào
+    if (error.response?.status === 401 && !originalRequest._retry) {
+      originalRequest._retry = true
+      
+      try {
+        // Gọi API refresh token. 
+        // Không cần truyền tham số vì Http-Only cookie chứa refresh_token sẽ tự động gửi kèm
+        const res = await axios.post(`${API_ROOT}/v1/auth/refresh-token`, {}, { withCredentials: true })
+        
+        const newAccessToken = res.data.accessToken
+        // Lưu lại token mới
+        localStorage.setItem('auth_token', newAccessToken)
+
+        // Sửa lại header và thử lại request gốc
+        originalRequest.headers.Authorization = `Bearer ${newAccessToken}`
+        return client(originalRequest)
+      } catch (refreshErr) {
+        // Đổi token thất bại (cookie hết hạn hoặc không hợp lệ) → bắt buộc logout
+        localStorage.removeItem('auth_token')
+        localStorage.removeItem('auth_user_image')
+        localStorage.removeItem('auth_user_name')
+        
+        window.location.href = '/login'
+        return Promise.reject(refreshErr)
+      }
+    }
+
+    return Promise.reject(error)
+  }
+)
+
 export const registerAPI = async (data) => {
   const response = await client.post('/v1/auth/register', data)
   return response.data
@@ -22,6 +61,11 @@ export const registerAPI = async (data) => {
 
 export const loginAPI = async (data) => {
   const response = await client.post('/v1/auth/login', data)
+  return response.data
+}
+
+export const logoutAPI = async () => {
+  const response = await client.delete('/v1/auth/logout')
   return response.data
 }
 

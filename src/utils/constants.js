@@ -1,6 +1,6 @@
 let apiRoot = ''
 if (process.env.BUILD_MODE === 'dev') {
-  apiRoot = 'http://localhost:5173'
+  apiRoot = 'http://localhost:1704'
 } else {
   apiRoot = 'https://aqualife-api.onrender.com'
 }

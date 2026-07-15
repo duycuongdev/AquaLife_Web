@@ -1,7 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
 import { Box, Typography, Grid, Card, CardContent, Button, Divider, List, ListItem, ListItemAvatar, ListItemText, Avatar } from '@mui/material'
-import Header from '~/components/Header/Header'
-import Footer from '~/components/Footer/Footer'
 import { getCart, saveCart, updateQty, removeFromCart } from '~/utils/cart'
 import { getMyCartAPI, getProductAPI, updateCartItemAPI, removeCartItemAPI } from '~/apis/index'
 import { getUserFromToken } from '~/utils/auth'
@@ -115,7 +113,6 @@ export default function Cart() {
 
   return (
     <Box sx={{ background: 'linear-gradient(180deg, #f7fbfb, #ffffff)', minHeight: '100vh' }}>
-      <Header />
       <Box sx={{ maxWidth: 1200, mx: 'auto', p: 3, mb: 23.5 }}>
         <Typography variant="h5" sx={{ mb: 10, mt: 10, fontWeight: 700, textAlign: 'center' }}>Giỏ hàng</Typography>
 
@@ -158,7 +155,6 @@ export default function Cart() {
           </Grid>
         )}
       </Box>
-      <Footer />
     </Box>
   )
 }

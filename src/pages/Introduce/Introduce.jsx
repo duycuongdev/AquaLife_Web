@@ -3,8 +3,6 @@ import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder'
 import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline'
 import PeopleOutlineIcon from '@mui/icons-material/PeopleOutline'
 import PublicIcon from '@mui/icons-material/Public'
-import Header from '~/components/Header/Header'
-import Footer from '~/components/Footer/Footer'
 import introduceImg from '~/assets/Introduce.png'
 
 export default function Introduce() {
@@ -12,8 +10,6 @@ export default function Introduce() {
 
   return (
     <Box sx={{ background: 'linear-gradient(180deg, #f7fbfb, #ffffff)' }}>
-      <Header />
-
       <Box sx={{ maxWidth: 1100, mx: 'auto', px: 2 }}>
         {/* Hàng tính năng */}
         <Box sx={{ py: { xs: 6, md: 10 }, textAlign: 'center' }}>
@@ -87,7 +83,6 @@ export default function Introduce() {
         </Box>
       </Box>
 
-      <Footer />
     </Box>
   )
 }
