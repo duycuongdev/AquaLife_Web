@@ -17,7 +17,7 @@ export default defineConfig({
   // Expose biến môi trường process.env cho code frontend
   // Cho phép dùng process.env.BUILD_MODE trong constants.js
   define: {
-    'process.env': process.env
+    'process.env.BUILD_MODE': JSON.stringify(process.env.BUILD_MODE)
   },
 
   plugins: [
