@@ -71,16 +71,8 @@ export default function Login() {
         login(res.accessToken, user)
       }
 
-      // Xử lý redirect
-      const tokenPayload = getUserFromToken()
-      const roleFromToken = tokenPayload?.role
-      const effectiveRole = roleFromToken || user.role
-
-      // Nếu có location.state.from (từ ProtectedRoute) thì quay lại trang đó
-      // Nhưng nếu là admin thì luôn ưu tiên về trang admin
-      const origin = effectiveRole !== ROLE_CUSTOMER 
-        ? '/admin' 
-        : (location.state?.from?.pathname || '/')
+      // Xử lý redirect: luôn về trang chủ hoặc trang bị chặn trước đó
+      const origin = location.state?.from?.pathname || '/'
       
       toast.success('Đăng nhập thành công!')
       navigate(origin, { replace: true })
@@ -102,13 +94,8 @@ export default function Login() {
         login(res.accessToken, user)
       }
 
-      const tokenPayload = getUserFromToken()
-      const roleFromToken = tokenPayload?.role
-      const effectiveRole = roleFromToken || user.role
-
-      const origin = effectiveRole !== ROLE_CUSTOMER 
-        ? '/admin' 
-        : (location.state?.from?.pathname || '/')
+      // Xử lý redirect: luôn về trang chủ hoặc trang bị chặn trước đó
+      const origin = location.state?.from?.pathname || '/'
       
       toast.success('Đăng nhập Google thành công!')
       navigate(origin, { replace: true })

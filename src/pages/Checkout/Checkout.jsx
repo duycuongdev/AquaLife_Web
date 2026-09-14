@@ -296,7 +296,7 @@ export default function Checkout() {
       })
 
       resetCheckoutState()
-      toast.success('Thanh toán thành công.')
+      toast.success('Đặt hàng thành công.')
 
       try {
         navigate('/products')
@@ -304,7 +304,7 @@ export default function Checkout() {
         // ignore
       }
     } catch (err) {
-      toast.error('Thanh toán thất bại')
+      toast.error('Đặt hàng thất bại')
     } finally {
       setIsSubmitting(false)
     }
@@ -314,7 +314,7 @@ export default function Checkout() {
     <Box sx={{ background: 'linear-gradient(180deg, #f7fbfb, #ffffff)', minHeight: '100vh' }}>
       <Box sx={{ maxWidth: 1200, mx: 'auto', p: 3 }}>
         <Typography variant="h5" sx={{ mb: 10, mt: 10, textAlign: 'center', fontWeight: 700 }}>
-          Thanh toán
+          Đặt hàng
         </Typography>
 
         {loading ? (
@@ -406,7 +406,7 @@ export default function Checkout() {
                               variant="outlined"
                               onClick={() => {
                                 if (items.length === 1 && total < 50000) {
-                                  toast.error('Đơn hàng tối thiểu 50.000đ để thanh toán.')
+                                  toast.error('Đơn hàng tối thiểu 50.000đ để đặt hàng.')
                                   return
                                 }
                                 updateItemQty(it.id, -1)
@@ -485,7 +485,7 @@ export default function Checkout() {
                     onClick={onCheckout}
                     disabled={isSubmitting}
                   >
-                    Thanh toán
+                    Đặt hàng
                   </Button>
                 </CardContent>
               </Card>

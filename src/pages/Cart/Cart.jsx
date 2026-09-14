@@ -104,7 +104,7 @@ export default function Cart() {
   const total = items.reduce((s, it) => s + (it.price || 0) * (it.qty || 0), 0)
   useEffect(() => {
     if (total < MIN_ORDER_TOTAL && items.length > 0) {
-      toast.error('Đơn hàng tối thiểu 100.000đ để thanh toán.')
+      toast.error('Đơn hàng tối thiểu 100.000đ để đặt hàng.')
     }
   }, [items.length, total])
 
@@ -149,7 +149,7 @@ export default function Cart() {
                 promoInfo={null}
                 onCheckout={goToCheckout}
                 minOrderTotal={MIN_ORDER_TOTAL}
-                actionLabel="Tiến hành thanh toán"
+                actionLabel="Tiến hành đặt hàng"
               />
             </Grid>
           </Grid>
@@ -246,7 +246,7 @@ function CartItemsInline({ items, setItems, total, isBackendMode, ignoreNextUpda
   )
 }
 
-function CartCheckoutInline({ items, total, shippingFee, discount, promoInfo, onCheckout, minOrderTotal, actionLabel = 'Thanh toán' }) {
+function CartCheckoutInline({ items, total, shippingFee, discount, promoInfo, onCheckout, minOrderTotal, actionLabel = 'Đặt hàng' }) {
   return (
     <Card sx={{ position: 'sticky', top: 24, p: 2 }}>
       <CardContent>
