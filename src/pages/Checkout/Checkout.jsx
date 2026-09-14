@@ -26,7 +26,8 @@ import {
   getProductAPI,
   updateCartItemAPI,
   removeCartItemAPI,
-  createPaymentAPI
+  createPaymentAPI,
+  getCustomerAPI
 } from '~/apis/index'
 import { getUserFromToken } from '~/utils/auth'
 import { useNavigate } from 'react-router-dom'
@@ -148,9 +149,27 @@ export default function Checkout() {
     }
   }, [])
 
+  // Lấy dữ liệu profile mới nhất từ server
+  useEffect(() => {
+    let active = true
+    const user = getUserFromToken()
+    if (user && user.id) {
+      getCustomerAPI(user.id).then(data => {
+        if (!active || !data) return
+        if (data.phone) setCustomerPhone(data.phone)
+        if (data.address) setCustomerAddress(data.address)
+        if (data.name) setCustomerName(data.name)
+        if (data.email) setCustomerEmail(data.email)
+      }).catch(err => {
+        // ignore
+      })
+    }
+    return () => { active = false }
+  }, [])
+
   const total = items.reduce((s, it) => s + (it.price || 0) * (it.qty || 0), 0)
 
-  const shippingFee = 50000
+  const shippingFee = 0
 
   const updateItemQty = async (id, delta) => {
     const updated = items.map((it) =>
