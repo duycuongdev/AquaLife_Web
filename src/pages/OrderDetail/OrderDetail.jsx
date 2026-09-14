@@ -35,7 +35,7 @@ export default function OrderDetail() {
 
         // Lấy tên sản phẩm và ảnh bằng cách gọi API product cho từng sản phẩm
         const withNames = await Promise.all((details || []).map(async (d) => {
-          const prodId = (d.productsId && (d.productsId._id || d.productsId.toString)) ? (d.productsId._id || d.productsId.toString()) : String(d.productsId)
+          const prodId = (d.productId && (d.productId._id || d.productId.toString)) ? (d.productId._id || d.productId.toString()) : String(d.productId || d.productsId)
           // eslint-disable-next-line no-console
           console.log('Fetch product for order-detail', prodId)
           try {

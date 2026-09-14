@@ -24,8 +24,8 @@ export function AuthProvider({ children }) {
   // Được decode từ JWT payload: { id, email, role, name }
   const [user, setUser] = useState(null)
 
-  // token: JWT string, dùng để gửi kèm API requests
   const [token, setToken] = useState(null)
+  const [isInitializing, setIsInitializing] = useState(true)
 
   /**
    * Đọc auth state từ localStorage khi app khởi động.
@@ -35,7 +35,10 @@ export function AuthProvider({ children }) {
   const restoreAuth = useCallback(() => {
     try {
       const storedToken = localStorage.getItem('auth_token')
-      if (!storedToken) return // Không có token → chưa đăng nhập
+      if (!storedToken) {
+        setIsInitializing(false)
+        return // Không có token → chưa đăng nhập
+      }
 
       // Decode JWT payload (phần thứ 2, base64 encoded)
       // Format JWT: header.payload.signature
@@ -61,14 +64,17 @@ export function AuthProvider({ children }) {
         // Không return luôn ở đây, vì nếu còn cookie refresh_token thì interceptor sẽ xin lại token.
         // Tuy nhiên ở AuthContext, ta sẽ tạm thời không set token.
         setUser(payload) // Tạm giữ user info
+        setIsInitializing(false)
         return
       }
 
       setToken(storedToken)
       setUser(payload)
+      setIsInitializing(false)
     } catch (err) {
       // Token bị corrupt → xoá đi
       localStorage.removeItem('auth_token')
+      setIsInitializing(false)
     }
   }, [])
 
@@ -125,6 +131,7 @@ export function AuthProvider({ children }) {
     isLoggedIn,  // boolean: đã đăng nhập chưa
     isAdmin,     // boolean: là admin không
     isCustomer,  // boolean: là customer không
+    isInitializing, // boolean: đang khôi phục trạng thái auth
     login,       // function: gọi khi login thành công
     logout       // function: gọi khi đăng xuất
   }

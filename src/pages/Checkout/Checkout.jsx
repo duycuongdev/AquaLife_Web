@@ -38,11 +38,12 @@ export default function Checkout() {
   const [isBackendMode, setIsBackendMode] = useState(false)
   const ignoreNextUpdateRef = useRef(false)
 
-  const [customerPhone, setCustomerPhone] = useState('')
-  const [customerAddress, setCustomerAddress] = useState('')
+  const [customerPhone, setCustomerPhone] = useState(localStorage.getItem('auth_user_phone') || '')
+  const [customerEmail, setCustomerEmail] = useState(getUserFromToken()?.email || '')
+  const [customerAddress, setCustomerAddress] = useState(localStorage.getItem('auth_user_address') || '')
   const [customerNote, setCustomerNote] = useState('')
   const [paymentMethod, setPaymentMethod] = useState('cash')
-  const [customerName, setCustomerName] = useState('')
+  const [customerName, setCustomerName] = useState(localStorage.getItem('auth_user_name') || '')
   const [shippingMethod, setShippingMethod] = useState('standard')
   const [isSubmitting, setIsSubmitting] = useState(false)
 
@@ -278,8 +279,8 @@ export default function Checkout() {
       await Promise.all(
         items.map((it) => {
           const detail = {
-            ordersId: orderId,
-            productsId: it.id,
+            orderId: orderId,
+            productId: it.id,
             quantity: it.qty,
             price: it.price
           }
@@ -359,8 +360,8 @@ export default function Checkout() {
                       <TextField
                         label="Email"
                         fullWidth
-                        value={getUserFromToken()?.email || ''}
-                        disabled
+                        value={customerEmail}
+                        onChange={(e) => setCustomerEmail(e.target.value)}
                         sx={{ mt: 1 }}
                       />
                     </Grid>
@@ -388,41 +389,7 @@ export default function Checkout() {
                 </CardContent>
               </Card>
 
-              <Card sx={{ p: 2, mb: 2 }}>
-                <CardContent>
-                  <Typography sx={{ fontWeight: 700, mb: 2 }}>Phương thức vận chuyển</Typography>
-                  <FormControl component="fieldset">
-                    <RadioGroup
-                      value={shippingMethod}
-                      onChange={(e) => setShippingMethod(e.target.value)}
-                    >
-                      <FormControlLabel
-                        value="standard"
-                        control={<Radio sx={{ color: 'primary.main' }} />}
-                        label={<Typography sx={{ color: 'text.primary' }}>Giao hàng tiêu chuẩn — 50.000đ</Typography>}
-                      />
-                    </RadioGroup>
-                  </FormControl>
-                </CardContent>
-              </Card>
 
-              <Card sx={{ p: 2, mb: 2 }}>
-                <CardContent>
-                  <Typography sx={{ fontWeight: 700, mb: 2 }}>Phương thức thanh toán</Typography>
-                  <FormControl component="fieldset">
-                    <RadioGroup
-                      value={paymentMethod}
-                      onChange={(e) => setPaymentMethod(e.target.value)}
-                    >
-                      <FormControlLabel
-                        value="cash"
-                        control={<Radio sx={{ color: 'primary.main' }} />}
-                        label={<Typography sx={{ color: 'text.primary' }}>Thanh toán khi nhận hàng (COD)</Typography>}
-                      />
-                    </RadioGroup>
-                  </FormControl>
-                </CardContent>
-              </Card>
 
               <Card sx={{ p: 2, mb: 10 }}>
                 <CardContent>

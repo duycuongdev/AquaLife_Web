@@ -14,11 +14,13 @@ import checkout from '~/assets/checkout.png'
 import Dashboard from '~/pages/Admin/Dashboard/Dashboard'
 import { useNavigate } from 'react-router-dom'
 import ReceiptLongIcon from '@mui/icons-material/ReceiptLong'
+import { useAuth } from '~/contexts/AuthContext'
 
 export default function Admin() {
   const [section, setSection] = useState('dashboard')
   const [tabIndex, setTabIndex] = useState(0)
   const navigate = useNavigate()
+  const { logout } = useAuth()
 
   const location = useLocation()
 
@@ -73,13 +75,13 @@ export default function Admin() {
           <Button
             startIcon={<img src={checkout} alt="Checkout" style={{ width: 24, height: 24 }} />}
             sx={{ color: '#0b8798', textTransform: 'none', fontWeight: 'bold' }}
-            onClick={() => {
+            onClick={async () => {
               try {
-                localStorage.removeItem('auth_token')
+                logout()
+                navigate('/login', { replace: true })
               } catch (e) {
-                /* ignore */
+                toast.error('Có lỗi xảy ra khi đăng xuất')
               }
-              navigate('/RegisterAndLogin', { replace: true })
             }}
           >
             Đăng xuất

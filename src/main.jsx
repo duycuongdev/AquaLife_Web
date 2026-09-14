@@ -11,7 +11,7 @@ ReactDOM.createRoot(document.getElementById('root')).render(
     <CssBaseline />
     <App />
     {/* Toast thông báo hiển thị toàn cục */}
-    <ToastContainer position='top-center' theme='colored' />
+    <ToastContainer position='bottom-left' theme='colored' />
   </CssVarsProvider>
 )
 

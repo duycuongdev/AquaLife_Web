@@ -20,9 +20,9 @@ export default function AdminOrderDetail({ open, orderId, onClose }) {
         if (!mounted) return
         const withProd = await Promise.all((details || []).map(async (d) => {
           try {
-            const pid = (d.productsId && (d.productsId._id || d.productsId.toString)) ? (d.productsId._id || d.productsId.toString()) : String(d.productsId)
+            const pid = (d.productId && (d.productId._id || d.productId.toString)) ? (d.productId._id || d.productId.toString()) : String(d.productId || d.productsId)
             const p = await getProductAPI(pid)
-            return { ...d, productName: p?.product_name, productImage: p?.image_url || p?.image }
+            return { ...d, productName: p?.name || p?.product_name, productImage: p?.imageUrl || p?.image_url || p?.image }
           } catch (err) {
             return d
           }
@@ -52,7 +52,7 @@ export default function AdminOrderDetail({ open, orderId, onClose }) {
                   <Typography><span style={{ fontWeight: 700 }}>Mã đơn:</span> {order._id || order.id}</Typography>
                 </Box>
                 <Box sx={{ borderBottom: '1px solid #e0e0e0', mb: 2, pb: 2 }}>
-                  <Typography><span style={{ fontWeight: 700 }}>Thời gian:</span> {new Date(order.orderDate).toLocaleString()}</Typography>
+                  <Typography><span style={{ fontWeight: 700 }}>Thời gian:</span> {new Date(order.createdAt).toLocaleString()}</Typography>
                 </Box>
                 <Box sx={{ borderBottom: '1px solid #e0e0e0', mb: 2, pb: 2 }}>
                   <Typography><span style={{ fontWeight: 700 }}>Trạng thái:</span> {order.status}</Typography>
@@ -61,7 +61,7 @@ export default function AdminOrderDetail({ open, orderId, onClose }) {
                   <Typography><span style={{ fontWeight: 700 }}>Tổng:</span> {(Number(order.totalPrice) || 0).toLocaleString('vi-VN')} đ</Typography>
                 </Box>
                 <Box sx={{ borderBottom: '1px solid #e0e0e0', mb: 2, pb: 2 }}>
-                  <Typography><span style={{ fontWeight: 700 }}>Địa chỉ:</span> {order.deliveryAddress}</Typography>
+                  <Typography><span style={{ fontWeight: 700 }}>Địa chỉ:</span> {order.address}</Typography>
                 </Box>
                 <TableContainer component={Paper} elevation={0}>
                   <Table size="small">
@@ -76,7 +76,7 @@ export default function AdminOrderDetail({ open, orderId, onClose }) {
                     <TableBody>
                       {(items || []).map((it) => (
                         <TableRow key={it._id || it.id}>
-                          <TableCell align="center">{it.productName || it.productsId}</TableCell>
+                          <TableCell align="center">{it.productName || it.productId || it.productsId}</TableCell>
                           <TableCell>
                             <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, justifyContent: 'center' }}>
                               {it.productImage ? (
@@ -87,7 +87,7 @@ export default function AdminOrderDetail({ open, orderId, onClose }) {
                             </Box>
                           </TableCell>
                           <TableCell align="center">{it.quantity}</TableCell>
-                          <TableCell align="center" sx={{ fontWeight: 700, color: '#d32f2f' }}>{(Number(it.priceAtOrder) || 0).toLocaleString('vi-VN')} đ</TableCell>
+                          <TableCell align="center" sx={{ fontWeight: 700, color: '#d32f2f' }}>{(Number(it.price) || 0).toLocaleString('vi-VN')} đ</TableCell>
                         </TableRow>
                       ))}
                     </TableBody>

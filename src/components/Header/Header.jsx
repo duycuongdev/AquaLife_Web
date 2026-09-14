@@ -144,6 +144,12 @@ export default function Header() {
               <ListItemIcon><PersonIcon /></ListItemIcon>
               <ListItemText primary="Hồ sơ" />
             </ListItemButton>
+            {isAdmin && (
+              <ListItemButton component={RouterLink} to="/admin" onClick={() => setDrawerOpen(false)}>
+                <ListItemIcon><PersonIcon /></ListItemIcon>
+                <ListItemText primary="Trang quản trị" />
+              </ListItemButton>
+            )}
             <ListItemButton component={RouterLink} to="/customer/orders" onClick={() => setDrawerOpen(false)}>
               <ListItemIcon><ReceiptLongIcon /></ListItemIcon>
               <ListItemText primary="Đơn hàng" />
@@ -231,7 +237,12 @@ export default function Header() {
                   <Typography variant="caption" color="text.secondary">{user?.email}</Typography>
                 </Box>
                 <Divider />
-
+                {isAdmin && (
+                  <MenuItem onClick={() => { setUserAnchor(null); navigate('/admin') }}>
+                    <ListItemIcon><PersonIcon fontSize="small" /></ListItemIcon>
+                    Trang quản trị
+                  </MenuItem>
+                )}
                 <MenuItem onClick={() => { setUserAnchor(null); navigate('/customer/profile') }}>
                   <ListItemIcon><PersonIcon fontSize="small" /></ListItemIcon>
                   Hồ sơ cá nhân

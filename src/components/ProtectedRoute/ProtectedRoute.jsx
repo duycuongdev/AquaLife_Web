@@ -30,8 +30,13 @@ export default function ProtectedRoute({
   requiredRole,
   redirectTo = '/login'
 }) {
-  const { isLoggedIn, user } = useAuth()
+  const { isLoggedIn, user, isInitializing } = useAuth()
   const location = useLocation() // Lưu URL hiện tại để redirect về sau khi login
+
+  // Nếu đang khôi phục trạng thái auth từ localStorage, không render gì hoặc render loading
+  if (isInitializing) {
+    return null
+  }
 
   // Chưa đăng nhập → redirect về trang login
   // state.from: lưu URL hiện tại, trang login sẽ redirect về đây sau khi login thành công

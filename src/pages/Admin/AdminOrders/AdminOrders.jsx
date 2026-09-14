@@ -50,6 +50,30 @@ export default function AdminOrders() {
   const closeDetail = () => setSelectedOrderId(null)
   const [approvingId, setApprovingId] = useState(null)
 
+  const handleUpdateStatus = async (orderId, newStatus) => {
+    try {
+      setApprovingId(orderId)
+      const updated = await updateOrderAPI(orderId, { status: newStatus })
+      setOrders((prev) => prev.map(x => (String(x._id) === String(orderId) ? { ...x, ...updated } : x)))
+      if (selectedOrderId === orderId) {
+        setSelectedOrderId(null)
+        setTimeout(() => setSelectedOrderId(orderId), 120)
+      }
+    } catch (err) {
+      // eslint-disable-next-line no-console
+      console.error('Update status failed', err)
+      const status = err?.response?.status
+      const serverMsg = err?.response?.data?.message || err?.response?.data || err?.message
+      if (status === 401 || status === 403) {
+        alert('Cập nhật trạng thái thất bại: Bạn không có quyền (401/403)')
+      } else {
+        alert(`Cập nhật trạng thái thất bại: ${serverMsg}`)
+      }
+    } finally {
+      setApprovingId(null)
+    }
+  }
+
   const idToStr = (v) => {
     if (!v && v !== 0) return ''
     try {
@@ -114,32 +138,19 @@ export default function AdminOrders() {
                           ...
                         </Button>
                       ) : (
-                        <Button size="small" variant="contained" onClick={async () => {
-                          try {
-                            setApprovingId(o._id || o.id)
-                            const updated = await updateOrderAPI(o._id || o.id, { status: 'Đã xác nhận' })
-                            setOrders((prev) => prev.map(x => (String(x._id) === String(o._id || o.id) ? updated : x)))
-                            // refresh modal if it's open for this order
-                            if (selectedOrderId === (o._id || o.id)) {
-                              setSelectedOrderId(null)
-                              // reopen to trigger reload
-                              setTimeout(() => setSelectedOrderId(o._id || o.id), 120)
+                        <>
+                          <Button size="small" variant="contained" onClick={() => handleUpdateStatus(o._id || o.id, 'Đã xác nhận')}>Xác nhận</Button>
+                          <Button size="small" color="error" variant="outlined" onClick={() => {
+                            if (window.confirm('Bạn có chắc chắn muốn huỷ đơn hàng này?')) {
+                              handleUpdateStatus(o._id || o.id, 'Đã hủy')
                             }
-                          } catch (err) {
-                            // eslint-disable-next-line no-console
-                            console.error('Approve failed', err)
-                            const status = err?.response?.status
-                            const serverMsg = err?.response?.data?.message || err?.response?.data || err?.message
-                            if (status === 401 || status === 403) {
-                              alert('Cập nhật trạng thái thất bại: Bạn không có quyền (401/403)')
-                            } else {
-                              alert(`Cập nhật trạng thái thất bại: ${serverMsg}`)
-                            }
-                          } finally {
-                            setApprovingId(null)
-                          }
-                        }}>Xác nhận</Button>
+                          }}>Hủy</Button>
+                        </>
                       )
+                    ) : o.status === 'Đã hủy' ? (
+                      <Box sx={{ display: 'inline-flex', alignItems: 'center', gap: 0.5 }}>
+                        <span style={{ color: '#d32f2f', fontSize: '13px', fontWeight: 500 }}>Đã hủy</span>
+                      </Box>
                     ) : (
                       <Box sx={{ display: 'inline-flex', alignItems: 'center', gap: 0.5 }}>
                         <CheckCircleIcon color="success" fontSize="small" />

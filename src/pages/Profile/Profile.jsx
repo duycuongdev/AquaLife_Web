@@ -137,7 +137,23 @@ export default function Profile() {
             <TextField label="Email" fullWidth value={form.email} onChange={onChange('email')} margin="normal" disabled={!editing} />
             <TextField label="Số điện thoại" fullWidth value={form.phone} onChange={onChange('phone')} margin="normal" disabled={!editing} />
             <TextField label="Địa chỉ" fullWidth value={form.address} onChange={onChange('address')} margin="normal" disabled={!editing} />
-            <TextField label="URL ảnh (avatar)" fullWidth value={form.imageUrl} onChange={onChange('imageUrl')} margin="normal" disabled={!editing} />
+            {editing && (
+              <Button variant="outlined" component="label" sx={{ mt: 2, mb: 1 }} fullWidth>
+                Tải ảnh đại diện
+                <input type="file" hidden accept="image/*" onChange={(e) => {
+                  const file = e.target.files[0]
+                  if (file) {
+                    if (file.size > 2 * 1024 * 1024) {
+                      alert('Vui lòng chọn ảnh nhỏ hơn 2MB')
+                      return
+                    }
+                    const reader = new FileReader()
+                    reader.onloadend = () => setForm(prev => ({ ...prev, imageUrl: reader.result }))
+                    reader.readAsDataURL(file)
+                  }
+                }} />
+              </Button>
+            )}
 
             {editing && (
               <Box sx={{ display: 'flex', gap: 2, mt: 2 }}>
