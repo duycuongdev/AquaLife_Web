@@ -34,7 +34,7 @@ const NAV_LINKS = [
 ]
 
 export default function Header() {
-  const { user, isLoggedIn, isCustomer, logout } = useAuth() // Lấy auth state từ Context
+  const { user, isLoggedIn, isCustomer, isAdmin, logout } = useAuth() // Lấy auth state từ Context
   const navigate = useNavigate()
   const theme = useTheme()
 
